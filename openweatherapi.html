@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Playing with API</title>
+	<!-- Bootstrap 4 Stylesheet -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+<body>
+	<div class="container">
+		<div class="jumbotron text-center">
+			<h1>City: <span id="city"></span></h1>
+			<h2>Country: <span id="country"></span></h2>
+			<h3>Current Temp: <span id="curTemp"></span></h3>
+		</div>
+	</div>
+
+
+
+
+<h4>Main Weather: <span id="mainWeather"></span></h4>
+<p>
+Minimum Temperature: <span id="minTemp"></span><br/>
+Maximum Temperature: <span id="maxTemp"></span><br/>
+Sunrise: <span id="sunrise"></span><br/>
+Sunset: <span id="sunset"></span>
+</p>
+
+	<script type="text/javascript">
+		var apiKey = "APPID=";
+		var qCity = "copenhagen";
+		
+		var apiData = 'http://api.openweathermap.org/data/2.5/weather?q='+qCity+'&units=metric&'+apiKey;
+		
+
+		var request = new XMLHttpRequest();
+		request.open('GET', apiData);
+
+		request.onload = function() {
+			// Convert Request to JSON
+			var weatherData = JSON.parse(request.responseText);
+			
+			// The data we need in an Data-Object
+			var data = {
+				city: 			weatherData.name,
+				country: 		weatherData.sys.country,
+				curTemp:		weatherData.main.temp,
+				minTemp: 		weatherData.main.temp_min,
+				maxTemp: 		weatherData.main.temp_max,
+				mainWeather: 	weatherData.weather[0].main,
+				//sunrise: 		weatherData.sys.sunrise, 
+				//sunset: 		weatherData.sys.sunset,
+			}
+
+			// Function to print out to HTML
+			function dataToHTML(variable, value){
+				document.getElementById(variable).innerHTML = value;
+			}
+
+			// Loop Through the data and print values to HTML using varToHTML function
+			for(var key in data){
+				dataToHTML(key, data[key]);
+			};
+
+			// UNIX UTC to String Converter (sunrise, sunset)
+			function unixTimestamp(t)
+			{
+				var dt = new Date(t*1000);
+				var hr = dt.getHours();
+				var m = "0" + dt.getMinutes();
+				var s = "0" + dt.getSeconds();
+				return hr+ ':' + m.substr(-2) + ':' + s.substr(-2);  
+			}
+
+			// Sunrise sunset data
+			var sunrise		= weatherData.sys.sunrise;
+			var sunset		= weatherData.sys.sunset;
+
+			document.getElementById("sunrise").innerHTML 	= unixTimestamp(sunrise);
+			document.getElementById("sunset").innerHTML 		= unixTimestamp(sunset);
+
+
+		} // request.onload
+
+		request.send();
+	</script>
+</body>
+</html>
