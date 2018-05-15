@@ -1,6 +1,5 @@
 # Obligatory Weather API
-Playing around with OpenWeatherMap API and JavaScript using old and new-school ways.<br/>
-( XMLHttpRequest() and fetch() )
+Playing around with OpenWeatherMap API and JavaScript using old and new-school ways. / XMLHttpRequest() and fetch()<br/>
 <a href="https://openweathermap.org/appid" target="_blank">Get your own API key here</a> <br/>
 
 <h2>Old-School Way - XMLHttpRequest()</h2>
