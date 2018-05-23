@@ -1,5 +1,5 @@
 // Api Key
-var apiKey = "APPID=ccf10b73f57b076e3a26505450b9f01d";
+var apiKey = "";
 
 // City Query
 var qCity = "copenhagen";
